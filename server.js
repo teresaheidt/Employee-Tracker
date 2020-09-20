@@ -7,14 +7,9 @@ const { printTable } = require('console-table-printer');
 function start() {
     inquirer
       .prompt({
-        name: "employee name",
-        type: "list",
+        name: "Enter desired field",
+        type: "input",
         message: "What would you like to do?",
-        choices: [
-            "View Employees", 
-            "View All Employees by Department", 
-            "Add Employees"
-        ],
       })
       .then(function(answer) {
         // based on their answer, either call the bid or the post functions
