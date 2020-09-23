@@ -4,7 +4,7 @@ CREATE DATABASE employeeTracker_DB;
 USE employeeTracker_DB;
 
 CREATE TABLE employee (
-  id INT NOT NULL AUTO_INCREMENT,
+  id INT AUTO_INCREMENT NOT NULL,
   employee_firstName VARCHAR(30) NOT NULL,
   employee_lastName VARCHAR(30) NOT NULL,
   role_id INT NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE employee (
 );
 
 CREATE TABLE role (
-  id INT NOT NULL AUTO_INCREMENT,
+  id INT AUTO_INCREMENT NOT NULL,
   title VARCHAR(30),
   salary DECIMAL NOT NULL,
   department_id INT NOT NULL,
