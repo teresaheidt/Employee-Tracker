@@ -31,63 +31,63 @@ INSERT INTO role (id, title, salary, department_id)
 VALUES ("Coordinator", 45000);
 
 -- insert department;
-INSERT INTO department (id, department_name)
+INSERT INTO department (department_name)
 VALUES ("Human Resources");
 
-INSERT INTO department (id, department_name)
+INSERT INTO department (department_name)
 VALUES ("Executive Office");
 
-INSERT INTO department (id, department_name)
+INSERT INTO department (department_name)
 VALUES ("Visual");
 
-INSERT INTO department (id, department_name)
+INSERT INTO department (department_name)
 VALUES ("Public Relations");
 
-INSERT INTO department (id, department_name)
+INSERT INTO department (department_name)
 VALUES ("Kitchen");
 
-INSERT INTO department (id, department_name)
+INSERT INTO department (department_name)
 VALUES ("Housekeeping");
 
-INSERT INTO department (id, department_name)
+INSERT INTO department (department_name)
 VALUES ("Marketing");
 
-INSERT INTO department (id, department_name)
+INSERT INTO department (department_name)
 VALUES ("Sales Floor");
 
-INSERT INTO department (id, department_name)
+INSERT INTO department (department_name)
 VALUES ("Engineering");
 
-INSERT INTO department (id, department_name)
+INSERT INTO department (department_name)
 VALUES ("IT");
 
 -- insert employee;
-INSERT INTO employee (id, employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Jack", "Smith", 586);
+INSERT INTO employee (employee_firstName, employee_lastName)
+VALUES ("Jack", "Smith");
 
-INSERT INTO employee (id, employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Peach", "Bananna", 874);
+INSERT INTO employee (employee_firstName, employee_lastName)
+VALUES ("Peach", "Bananna");
 
-INSERT INTO employee (id, employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Cash", "Pickles", 286);
+INSERT INTO employee (employee_firstName, employee_lastName)
+VALUES ("Cash", "Pickles");
 
-INSERT INTO employee (id, employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Jolly", "Ranger", 333);
+INSERT INTO employee (employee_firstName, employee_lastName)
+VALUES ("Jolly", "Ranger");
 
-INSERT INTO employee (id, employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("George", "Wilson", 916);
+INSERT INTO employee (employee_firstName, employee_lastName)
+VALUES ("George", "Wilson");
 
-INSERT INTO employee (id, employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Winston", "Churchill", 194);
+INSERT INTO employee (employee_firstName, employee_lastName)
+VALUES ("Winston", "Churchill");
 
-INSERT INTO employee (id, employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Catherine", "Sienna", 906);
+INSERT INTO employee (employee_firstName, employee_lastName)
+VALUES ("Catherine", "Sienna");
 
-INSERT INTO employee (id, employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Elizabeth", "Winsor", 539);
+INSERT INTO employee (employee_firstName, employee_lastName)
+VALUES ("Elizabeth", "Windsor");
 
-INSERT INTO employee (id, employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("George", "Shaw", 089);
+INSERT INTO employee (employee_firstName, employee_lastName)
+VALUES ("George", "Shaw");
 
-INSERT INTO employee (id, employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Stanley", "Cup", 366);
+INSERT INTO employee (employee_firstName, employee_lastName)
+VALUES ("Stanley", "Cup");

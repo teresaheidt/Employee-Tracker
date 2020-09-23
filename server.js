@@ -17,7 +17,8 @@ function start() {
         "Add employee",
         "Delete employee",
         "Update employee role",
-        "Update employee manager"
+        "Update employee manager",
+        "Exit"
         ]
       })
       .then(function(answer) {
@@ -62,7 +63,7 @@ function start() {
               message: "What employee would you like to search for?"
             })
             .then(function(answer) {
-              var query = "SELECT employee FROM employee WHERE ?";
+              var query = "SELECT employee FROM employeeTracker_DB WHERE ?";
               connection.query(query, {employee: answer.employee }, function(err, res) {
                 for (var i = 0; i < res.length; i++) {
                   console.log("employee: " + res[i].department + " || salary " + res[i].role + " || manager " + res[i].manager);
@@ -72,119 +73,124 @@ function start() {
               });
             });
           }
-    
-       
+
+          function managerSearch() {
+            var query = "SELECT manager FROM employeeTracker_DB GROUP BY manager HAVING count(*) > 1";
+            connection.query(query, function(err, res) {
+              for (var i = 0; i < res.length; i++) {
+                console.log(res[i].manager);
+              }
+              runSearch();
+            });
+          }
+
+          function departmentSearch() {
+            inquirer
+              .prompt([
+                {
+                  name: "start",
+                  type: "input",
+                  message: "Enter department: ",
+                  validate: function(value) {
+                    if (isNaN(value) === false) {
+                      return true;
+                    }
+                    return false;
+                  }
+                },
+                {
+                  name: "end",
+                  type: "input",
+                  message: "Enter ending position: ",
+                  validate: function(value) {
+                    if (isNaN(value) === false) {
+                      return true;
+                    }
+                    return false;
+                  }
+                }
+              ])
+              .then(function(answer) {
+                var query = "SELECT employee FROM employeeTracker WHERE ?";
+                connection.query(query, [answer.start, answer.end], function(err, res) {
+                  for (var i = 0; i < res.length; i++) {
+                    console.log(
+                      "Position: " +
+                        res[i].position +
+                        " || Song: " +
+                        res[i].song +
+                        " || Artist: " +
+                        res[i].artist +
+                        " || Year: " +
+                        res[i].year
+                    );
+                  }
+                  runSearch();
+                });
+              });
+          }
+          
+          function updateEmployee() {
+            inquirer
+              .prompt({
+                name: "employee",
+                type: "input",
+                message: "What is employee name?"
+              })
+              .then(function(answer) {
+                console.log(answer.song);
+                connection.query("SELECT * FROM department WHERE ?", { song: answer.song }, function(err, res) {
+                  console.log(
+                    "id: " +
+                      res[0].role +
+                      " || First name: " +
+                      res[0].firstName +
+                      " || Last name: " +
+                      res[0].lastName +
+                      " || Department: " +
+                      res[0].department
+                  );
+                  runSearch();
+                });
+              });
+          }
+          
+          function updateManager() {
+            inquirer
+              .prompt({
+                name: "Manager",
+                type: "input",
+                message: "What manager would you like to search for?"
+              })
+              .then(function(answer) {
+                var query = "SELECT top_albums.year, top_albums.album, top_albums.position, top5000.song, top5000.artist ";
+                query += "FROM top_albums INNER JOIN top5000 ON (top_albums.artist = top5000.artist AND top_albums.year ";
+                query += "= top5000.year) WHERE (top_albums.artist = ? AND department = ?) ORDER BY top_albums.year, top_albums.position";
+          
+                connection.query(query, [answer.artist, answer.artist], function(err, res) {
+                  console.log(res.length + " matches found!");
+                  for (var i = 0; i < res.length; i++) {
+                    console.log(
+                      i+1 + ".) " +
+                        "Year: " +
+                        res[i].year +
+                        " Album Position: " +
+                        res[i].position +
+                        " || Artist: " +
+                        res[i].artist +
+                        " || Song: " +
+                        res[i].song +
+                        " || Album: " +
+                        res[i].album
+                    );
+                  }
+          
+                  runSearch();
+                });
+              
+          }
+               
   
 
 
-  
-  // // function to handle posting new items up for auction
-  // function postAuction() {
-  //   // prompt for info about the item being put up for auction
-  //   inquirer
-  //     .prompt([
-  //       {
-  //         name: "item",
-  //         type: "input",
-  //         message: "What is the item you would like to submit?"
-  //       },
-  //       {
-  //         name: "category",
-  //         type: "input",
-  //         message: "What category would you like to place your auction in?"
-  //       },
-  //       {
-  //         name: "startingBid",
-  //         type: "input",
-  //         message: "What would you like your starting bid to be?",
-  //         validate: function(value) {
-  //           if (isNaN(value) === false) {
-  //             return true;
-  //           }
-  //           return false;
-  //         }
-  //       }
-  //     ])
-  //     .then(function(answer) {
-  //       // when finished prompting, insert a new item into the db with that info
-  //       connection.query(
-  //         "INSERT INTO auctions SET ?",
-  //         {
-  //           item_name: answer.item,
-  //           category: answer.category,
-  //           starting_bid: answer.startingBid || 0,
-  //           highest_bid: answer.startingBid || 0
-  //         },
-  //         function(err) {
-  //           if (err) throw err;
-  //           console.log("Your auction was created successfully!");
-  //           // re-prompt the user for if they want to bid or post
-  //           start();
-  //         }
-  //       );
-  //     });
-  // }
-  
-  // function bidAuction() {
-  //   // query the database for all items being auctioned
-  //   connection.query("SELECT * FROM auctions", function(err, results) {
-  //     if (err) throw err;
-  //     // once you have the items, prompt the user for which they'd like to bid on
-  //     inquirer
-  //       .prompt([
-  //         {
-  //           name: "choice",
-  //           type: "rawlist",
-  //           choices: function() {
-  //             var choiceArray = [];
-  //             for (var i = 0; i < results.length; i++) {
-  //               choiceArray.push(results[i].item_name);
-  //             }
-  //             return choiceArray;
-  //           },
-  //           message: " ?"
-  //         },
-  //         {
-  //           name: "bid",
-  //           type: "input",
-  //           message: " "
-  //         }
-  //       ])
-  //       .then(function(answer) {
-  //         // get the information of the chosen item
-  //         var chosenItem;
-  //         for (var i = 0; i < results.length; i++) {
-  //           if (results[i].item_name === answer.choice) {
-  //             chosenItem = results[i];
-  //           }
-  //         }
-  
-  //         // determine if bid was high enough
-  //         if (chosenItem.highest_bid < parseInt(answer.bid)) {
-  //           // bid was high enough, so update db, let the user know, and start over
-  //           connection.query(
-  //             "UPDATE auctions SET ? WHERE ?",
-  //             [
-  //               {
-  //                 highest_bid: answer.bid
-  //               },
-  //               {
-  //                 id: chosenItem.id
-  //               }
-  //             ],
-  //             function(error) {
-  //               if (error) throw err;
-  //               console.log("Bid placed successfully!");
-  //               start();
-  //             }
-  //           );
-  //         }
-  //         else {
-  //           // bid wasn't high enough, so apologize and start over
-  //           console.log("Your bid was too low. Try again...");
-  //           start();
-  //         }
-  //       });
-  //   });
-  // }
   
