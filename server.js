@@ -5,17 +5,20 @@ require('dotenv').config();
 const { printTable } = require('console-table-printer');
 var asciimo = require('asciimo').Figlet;
 var colors = require('colors');
+var sys = require('util');
 
 art();
 
 function art() {
   var font = 'larry3d';
-// set text we are writing to turn into leet ascii art
-var text = "Welcome";
+  // set text we are writing to turn into leet ascii art
+  var text = "Welcome";
   asciimo.write(text, font, function(art){
     console.log(art.red);
   });
+  start();
 }
+
 function runSearch() {
   console.log('dont care');
 }
@@ -52,7 +55,7 @@ function start() {
           break;
 
         case "View all roles":
-          roleSearch();
+          viewRoles();
           break;  
 
         case "View all departments":
@@ -142,25 +145,37 @@ function employeeSearch() {
     });
 }
 
-function roleSearch() {
-  inquirer
-    .prompt({
-      name: "role",
-      type: "input",
-      message: "What role would you like to search for?"
-    })
-    .then(function (answer) {
-      var query = "SELECT role FROM employeeTracker_DB WHERE ?";
-      connection.query(query, { employee: answer.employee }, function (err, res) {
-        for (var i = 0; i < res.length; i++) {
-          console.log("role: " + res[i].department + " || salary " + res[i].role + " || manager " + res[i].manager);
+// viewRoles();
 
-        }
-        runSearch();
-      });
-    });
+// function roleSearch() {
+//   inquirer
+//     .prompt({
+//       name: "role",
+//       type: "input",
+//       message: "What role would you like to search for?"
+//     })
+//     .then(function (answer) {
+//       var query = "SELECT role FROM employeeTracker_DB WHERE ?";
+//       connection.query(query, { employee: answer.employee }, function (err, res) {
+//         for (var i = 0; i < res.length; i++) {
+
+//         }
+//         runSearch();
+//       });
+//     });
+// }
+
+// if user wants to view what roles
+function viewRoles() {
+  connection.query("SELECT * FROM role", function (err, res) {
+    //if (err) throw err;
+
+    console.table(res);
+    start()
+
+  });
+
 }
-
 
 function managerSearch() {
   var query = "SELECT manager FROM employeeTracker_DB GROUP BY manager HAVING count(*) > 1";
@@ -171,8 +186,6 @@ function managerSearch() {
     runSearch();
   });
 }
-
-
 
 function departmentSearch() {
   inquirer
