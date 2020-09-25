@@ -40,7 +40,7 @@ function start() {
         "Delete employee",
         "Delete department",
         "Delete role",
-        "Update employee manager",
+        "View bugdget",
         "Exit"
       ]
     })
@@ -98,8 +98,8 @@ function start() {
             deleteRole();
             break;
 
-        case "Update employee manager":
-          updateManager();
+        case "View budget":
+          viewBudget();
           break;
       }
     });
@@ -184,7 +184,7 @@ function departmentSearch() {
       }
     ])
     .then(answers => {
-      // creat query connection to insert in to table
+      // create query connection to insert in to table
       var query = connection.query(
         "INSERT INTO department SET ?",
         {
@@ -196,17 +196,6 @@ function departmentSearch() {
           start();
         }
       );
-
-    //   switch (answer.departmentList) {
-    //     case 'View all departments':
-    //       View_All_Departments();
-    //       break;
-    //       case 'Add a New Department':
-    //         addDepartment();
-    //         break;
-    //         default:
-    //           exit();
-    //   }
       
         runSearch();
       });
@@ -253,42 +242,34 @@ function addEmployee() {
       })
     })
 
-}
-
-function updateManager() {
-  inquirer
-    .prompt({
-      name: "Manager",
-      type: "input",
-      message: "What manager would you like to search for?"
-    })
-    .then(function (answer) {
-      var query = "SELECT employee, manager ";
-      query += "FROM AND top_albums.year ";
-      query += "SELECT manager FROM employeeTracker_DB WHERE department = ?) ORDER BY salary";
-
-      connection.query(query, [answer.manager, answer.manager], function (err, res) {
-        console.log(res.length + " matches found!");
-        for (var i = 0; i < res.length; i++) {
-          console.log(
-            i + 1 + ".) " +
-            "first name " +
-            res[i].firstName +
-            " last name " +
-            res[i].lastName +
-            " salary " +
-            res[i].salary
+    function addRole() {
+      inquirer
+        .prompt([
+          {
+            name: "roleList",
+            type: "input",
+            message: "What role do you want to add?",
+          }
+        ])
+        .then(answers => {
+          // create query connection to insert in to table
+          var query = connection.query(
+            "INSERT INTO role SET ?",
+            {
+              role_Name: answers.roleList
+            },
+            function (err, res) {
+              if (err) throw err;
+              console.log(res.affectedRows + " New role inserted!\n");
+              start();
+            }
           );
-        }
+          
+            runSearch();
+          });
+    }
 
-        runSearch();
-      });
-
-    });
 }
-
-start();
-
 
 
 
