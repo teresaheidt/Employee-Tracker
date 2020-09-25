@@ -21,8 +21,12 @@ Super effective way to manage emplpoyees, departments and salaries.
 Node modules, Inquirer packages & MySQL
 
 ## Imgs:
+This is how the user ill view the employees.
+
+![screenshot](imgs/employeeView.png)
 
 ## Links:
 [Link to Github](https://teresaheidt.github.io/Employee-Tracker/)
 
 [Link to video]( )
+

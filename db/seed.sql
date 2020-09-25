@@ -91,3 +91,4 @@ VALUES ("George", "Shaw");
 
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)
 VALUES ("Stanley", "Cup");
+
