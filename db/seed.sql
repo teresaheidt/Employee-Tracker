@@ -66,29 +66,29 @@ INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id
 VALUES ("Jack", "Smith", 12, null);
 
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Peach", "Bananna");
+VALUES ("Peach", "Bananna", 4, null);
 
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Cash", "Pickles");
+VALUES ("Cash", "Pickles", 5, null);
 
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Jolly", "Ranger");
+VALUES ("Jolly", "Ranger", 3, null);
 
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("George", "Wilson");
+VALUES ("George", "Wilson", 4, null);
 
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Winston", "Churchill");
+VALUES ("Winston", "Churchill", 6, null);
 
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Catherine", "Sienna");
+VALUES ("Catherine", "Sienna", 7, null);
 
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Elizabeth", "Windsor");
+VALUES ("Elizabeth", "Windsor", 9, null);
 
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("George", "Shaw");
+VALUES ("George", "Shaw", 5, null);
 
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Stanley", "Cup");
+VALUES ("Stanley", "Cup", 11, null);
 

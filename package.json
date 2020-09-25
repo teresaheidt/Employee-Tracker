@@ -4,9 +4,12 @@
   "description": "## Table of contents: * About * How * Why * Techologues used * Imgs * Links",
   "main": "server.js",
   "dependencies": {
+    "asciimo": "^0.3.1",
+    "colors": "^1.4.0",
     "console-table-printer": "^2.4.8",
     "dotenv": "^8.2.0",
     "env": "0.0.2",
+    "figlet": "^1.5.0",
     "inquirer": "^7.3.3",
     "mysql": "^2.18.1"
   },

@@ -1,7 +1,24 @@
 const inquirer = require('inquirer');
+const connection = require('./db/connection');
 const DB = require('./db/DB');
 require('dotenv').config();
 const { printTable } = require('console-table-printer');
+var asciimo = require('asciimo').Figlet;
+var colors = require('colors');
+
+art();
+
+function art() {
+  var font = 'larry3d';
+// set text we are writing to turn into leet ascii art
+var text = "Welcome";
+  asciimo.write(text, font, function(art){
+    console.log(art.red);
+  });
+}
+function runSearch() {
+  console.log('dont care');
+}
 
 // function which prompts the user for what action they should take
 function start() {
@@ -11,15 +28,18 @@ function start() {
       type: "list",
       message: "What would you like to do?",
       choices: [
+        "View all employees",
+        "View all roles",
         "View all departments",
         "Add department",
-        "View all roles",
-        "View all employees",
-        "View all employees by manager",
-        "View all employees by department",
         "Add employee",
-        "Delete employee",
+        "Add roles",
         "Update employee role",
+        "View all employees by manager",
+        "Update employee manager",
+        "Delete employee",
+        "Delete department",
+        "Delete role",
         "Update employee manager",
         "Exit"
       ]
@@ -31,33 +51,52 @@ function start() {
           findAllEmployees();
           break;
 
+        case "View all roles":
+          roleSearch();
+          break;  
+
         case "View all departments":
           findAllDepartments()
           break;
 
-          case "Add department":
-            addEmployee();
-            break;
-
-        case "View all employees by manager":
-          managerSearch();
-          break;
-
-        case "View all employees by department":
+        case "Add department":
           departmentSearch();
           break;
 
+        case "Add roles":
+          addRole();
+        break;
+
         case "Add employee":
           addEmployee();
+        break;
+
+        case "Update employee role":
+          updateEmployee();
+          break;
+
+       
+
+      // Bonus 
+        case "View all employees by manager":
+          managerView();
+          break;
+
+        case "Update employee manager":
+          managerUpdate();
           break;
 
         case "Delete employee":
           deleteEmployee();
           break;
 
-        case "Update employee role":
-          updateEmployee();
+        case "Delete department":
+          deleteDepartment();
           break;
+
+        case "Delete role":
+            deleteRole();
+            break;
 
         case "Update employee manager":
           updateManager();
@@ -140,26 +179,34 @@ function departmentSearch() {
     .prompt([
       {
         name: "departmentList",
-        type: "list",
-        message: "What would you like to do?",
-        choices: [
-          "View all departments",
-          "Add a New Department",
-          "Exit"
-        ],
-      },
-    ])
-    .then(function (answer) {
-      switch (answer.department) {
-        case 'View all departments':
-          View_All_Departments();
-          break;
-          case 'Add_Department':
-            Add_Department();
-            break;
-            default:
-              bye();
+        type: "input",
+        message: "What department do you want to add?",
       }
+    ])
+    .then(answers => {
+      // creat query connection to insert in to table
+      var query = connection.query(
+        "INSERT INTO department SET ?",
+        {
+          department_Name: answers.departmentList
+        },
+        function (err, res) {
+          if (err) throw err;
+          console.log(res.affectedRows + " New department inserted!\n");
+          start();
+        }
+      );
+
+    //   switch (answer.departmentList) {
+    //     case 'View all departments':
+    //       View_All_Departments();
+    //       break;
+    //       case 'Add a New Department':
+    //         addDepartment();
+    //         break;
+    //         default:
+    //           exit();
+    //   }
       
         runSearch();
       });
@@ -167,28 +214,46 @@ function departmentSearch() {
 
 function addEmployee() {
   inquirer
-    .prompt({
-      name: "employee",
+    .prompt([ {
       type: "input",
-      message: "What is employee name?"
+      name: "firstName",
+      message: "What is employee first name?"
+    }, 
+    { 
+      type: 'input', 
+      name: "lastName",
+      message: "What is employee last name?"
+   },
+   {
+      type: 'input', 
+      name: "manager_id",
+      message: "What is your manager id?"
+ },
+   {
+      type: 'input', 
+      name: "role_id",
+      message: "What is employee role id?"
+   }
+
+  ])
+    .then(answers => {
+      console.log(answers);
+      var query = connection.query("INSERT INTO employee SET ?", 
+      { 
+       
+        employee_firstName: answers.firstName, 
+        employee_lastName: answers.lastName,
+        role_id: answers.role_id,
+        manager_id: answers.manager_id
+         
+        }, 
+        function (err, res) {
+      
+        start();
+      })
     })
-    .then(function (answer) {
-      console.log(answer.role);
-      connection.query("SELECT * FROM employee WHERE ?", { role: answer.role }, function (err, res) {
-        console.log(
-          "id: " +
-          res[0].role +
-          " || First name: " +
-          res[0].firstName +
-          " || Last name: " +
-          res[0].lastName +
-          " || Department: " +
-          res[0].department
-        );
-        runSearch();
-      });
-    });
-  }
+
+}
 
 function updateManager() {
   inquirer
@@ -223,6 +288,8 @@ function updateManager() {
 }
 
 start();
+
+
 
 
 
