@@ -1,10 +1,19 @@
 {
   "name": "employee-tracker",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "## Table of contents: * About * How * Why * Techologues used * Imgs * Links",
+  "main": "server.js",
+  "dependencies": {
+    "console-table-printer": "^2.4.8",
+    "dotenv": "^8.2.0",
+    "env": "0.0.2",
+    "inquirer": "^7.3.3",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -15,14 +24,5 @@
   "bugs": {
     "url": "https://github.com/teresaheidt/Employee-Tracker/issues"
   },
-  "homepage": "https://github.com/teresaheidt/Employee-Tracker#readme",
-  "dependencies": {
-    "console-table-printer": "^2.4.5",
-    "console.table": "^0.10.0",
-    "dotenv": "^8.2.0",
-    "env": "0.0.2",
-    "inquirer": "^7.3.3",
-    "mysql": "^2.18.1",
-    "util": "^0.12.3"
-  }
+  "homepage": "https://github.com/teresaheidt/Employee-Tracker#readme"
 }
