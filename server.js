@@ -364,15 +364,13 @@ function deleteRole() {
     
   // removes employee
 
-
-  removeEmployee('Winston');
-
   function removeEmployee(exEmployee) {
   
   console.log("Removing exemployee!\n");
+
   // query to delete
   connection.query(
-    "DELETE FROM employee WHERE title = exEmployee",
+    "DELETE FROM employee WHERE employee",
     {
       title: exEmployee
     },
