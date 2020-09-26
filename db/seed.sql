@@ -63,7 +63,7 @@ VALUES ("IT");
 
 -- insert employee;
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Jack", "Smith", 12, null);
+VALUES ("Jack", "Smith", 6, null);
 
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)
 VALUES ("Peach", "Bananna", 4, null);
@@ -90,5 +90,5 @@ INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id
 VALUES ("George", "Shaw", 5, null);
 
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)
-VALUES ("Stanley", "Cup", 11, null);
+VALUES ("Stanley", "Cup", 8, null);
 

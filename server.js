@@ -7,8 +7,8 @@ var asciimo = require('asciimo').Figlet;
 var colors = require('colors');
 var sys = require('util');
 
+// create the welcome sign
 art();
-
 function art() {
   var font = 'larry3d';
   // set text we are writing to turn into leet ascii art
@@ -20,7 +20,6 @@ function art() {
 }
 
 function runSearch() {
-  console.log('dont care');
 }
 
 // function which prompts the user for what action they should take
@@ -37,7 +36,7 @@ function start() {
         "Add department",
         "Add employee",
         "Add role",
-        // "Update employee role",
+        "Update employee role",
         // "View all employees by manager",
         // "Update employee manager",
         "Delete employee",
@@ -74,9 +73,9 @@ function start() {
           addEmployee();
         break;
 
-        // case "Update employee role":
-        //   updateEmployeeRole();
-        //   break;
+        case "Update employee role":
+          updateEmployeeRole();
+          break;
 
        
 
@@ -227,8 +226,8 @@ function addEmployee() {
         "INSERT INTO employee SET ?", 
       { 
        
-        employee_firstName: answers.firstName, 
-        employee_lastName: answers.lastName,
+        employee_firstName: answers.employee_firstName, 
+        employee_lastName: answers.employee_lastName,
         role_id: answers.role_id,
         manager_id: answers.manager_id
          
@@ -284,7 +283,7 @@ function addRole() {
       });
 }
 
-// function to update employee role fom database
+// function to update employee role in database
 function updateEmployeeRole() {
 
   connection.query("SELECT employee_firstName FROM employee", function (err, res) {
@@ -300,7 +299,8 @@ function updateEmployeeRole() {
       }
     ])
     .then(answers => {
-      findRole(answers.employee.employee_firstName);
+      findRole(
+        answers.employee.employee_firstName);
       start();
   
     })
