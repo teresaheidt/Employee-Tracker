@@ -226,13 +226,14 @@ function addEmployee() {
         "INSERT INTO employee SET ?", 
       { 
        
-        employee_firstName: answers.employee_firstName, 
-        employee_lastName: answers.employee_lastName,
+        employee_firstName: answers.firstName, 
+        employee_lastName: answers.lastName,
         role_id: answers.role_id,
         manager_id: answers.manager_id
          
         }, 
         function (err, res) {
+          if (err)throw err;
       
         start();
       })
@@ -293,7 +294,7 @@ function updateEmployeeRole() {
     .prompt([
       {
         type: "list",
-        name:"employee",
+        name: "employee",
         message: "Please select employee to update",
         choices: res.map(employee => employee.employee_firstName)
       }
@@ -313,8 +314,35 @@ function updateEmployeeRole() {
     });
     
   });
+  start();
 
 } 
+
+function findRole(name) {
+  connection.query('SELECT department_id FROM role', function (err, res) {
+    if (err) throw err;
+
+    inquirer
+    .prompt([
+      {
+      type: "list",
+      name: "role",
+      message: "Select department to update",
+      choices: res.map(role => role.department)
+      }
+    ])
+  })
+  .then(answer => {let sql = "UPDATE employee SET role_id = WHERE employee_firstName = ?"; 
+  let role = parseInt(answer.role);
+  let data = [role, name];
+
+  connection.query(sql, data, (error, results, fields) => {
+    if (error) {
+      return console.error(error.message);
+    }
+  });
+})
+}
   
 // function to remove role from database
 function removeRole(oldRole) {
