@@ -59,11 +59,11 @@ function start() {
           break;  
 
         case "View all departments":
-          findAllDepartments()
+          findAllDepartments();
           break;
 
         case "Add department":
-          departmentSearch();
+          addDepartment();
           break;
 
         case "Add roles":
@@ -114,12 +114,6 @@ function findAllDepartments() {
   })
 }
 
-function findAllRoles() {
-  DB.findAllRoles().then(function (res) {
-    printTable(res)
-  })
-}
-
 function findAllEmployees() {
   DB.findAllEmployees().then(function(res) {
     printTable(res)
@@ -141,30 +135,11 @@ function employeeSearch() {
 
         }
         runSearch();
+      
       });
     });
 }
-
-// viewRoles();
-
-// function roleSearch() {
-//   inquirer
-//     .prompt({
-//       name: "role",
-//       type: "input",
-//       message: "What role would you like to search for?"
-//     })
-//     .then(function (answer) {
-//       var query = "SELECT role FROM employeeTracker_DB WHERE ?";
-//       connection.query(query, { employee: answer.employee }, function (err, res) {
-//         for (var i = 0; i < res.length; i++) {
-
-//         }
-//         runSearch();
-//       });
-//     });
-// }
-
+ 
 // if user wants to view what roles
 function viewRoles() {
   connection.query("SELECT * FROM role", function (err, res) {
@@ -187,7 +162,7 @@ function managerSearch() {
   });
 }
 
-function departmentSearch() {
+function addDepartment() {
   inquirer
     .prompt([
       {
@@ -198,7 +173,7 @@ function departmentSearch() {
     ])
     .then(answers => {
       // create query connection to insert in to table
-      var query = connection.query(
+      connection.query(
         "INSERT INTO department SET ?",
         {
           department_Name: answers.departmentList
@@ -206,6 +181,7 @@ function departmentSearch() {
         function (err, res) {
           if (err) throw err;
           console.log(res.affectedRows + " New department inserted!\n");
+          
           start();
         }
       );
@@ -240,7 +216,8 @@ function addEmployee() {
   ])
     .then(answers => {
       console.log(answers);
-      var query = connection.query("INSERT INTO employee SET ?", 
+      connection.query(
+        "INSERT INTO employee SET ?", 
       { 
        
         employee_firstName: answers.firstName, 
@@ -266,10 +243,15 @@ function addEmployee() {
         ])
         .then(answers => {
           // create query connection to insert in to table
-          var query = connection.query(
+          console.log(answers);
+          connection.query(
             "INSERT INTO role SET ?",
             {
-              role_Name: answers.roleList
+       
+                title: answers.title, 
+                salary: answers.salary,
+                department_id: answers.department_id
+
             },
             function (err, res) {
               if (err) throw err;
