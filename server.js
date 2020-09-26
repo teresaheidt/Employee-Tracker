@@ -37,13 +37,13 @@ function start() {
         "Add department",
         "Add employee",
         "Add role",
-        "Update employee role",
-        "View all employees by manager",
-        "Update employee manager",
+        // "Update employee role",
+        // "View all employees by manager",
+        // "Update employee manager",
         "Delete employee",
-        "Delete department",
+        // "Delete department",
         "Delete role",
-        "View bugdget",
+        // "View bugdget",
         "Exit"
       ]
     })
@@ -74,40 +74,41 @@ function start() {
           addEmployee();
         break;
 
-        case "Update employee role":
-          updateEmployee();
-          break;
+        // case "Update employee role":
+        //   updateEmployeeRole();
+        //   break;
 
        
 
       // Bonus 
-        case "View all employees by manager":
-          managerView();
-          break;
+        // case "View all employees by manager":
+        //   managerView();
+        //   break;
 
-        case "Update employee manager":
-          managerUpdate();
-          break;
+        // case "Update employee manager":
+        //   managerUpdate();
+        //   break;
 
         case "Delete employee":
           deleteEmployee();
           break;
 
-        case "Delete department":
-          deleteDepartment();
-          break;
+        // case "Delete department":
+        //   deleteDepartment();
+        //   break;
 
         case "Delete role":
             deleteRole();
             break;
 
-        case "View budget":
-          viewBudget();
-          break;
+        // case "View budget":
+        //   viewBudget();
+        //   break;
       }
     });
 }
 
+// brings up all departments
 function findAllDepartments() {
   DB.findAllDepartments().then(function (res) {
     printTable(res)
@@ -115,6 +116,7 @@ function findAllDepartments() {
   })
 }
 
+// brings up all employees
 function findAllEmployees() {
   DB.findAllEmployees().then(function(res) {
     printTable(res)
@@ -165,6 +167,7 @@ function managerSearch() {
   });
 }
 
+// new department
 function addDepartment() {
   inquirer
     .prompt([
@@ -193,6 +196,7 @@ function addDepartment() {
       });
 }
 
+// new employee
 function addEmployee() {
   inquirer
     .prompt([ {
@@ -238,6 +242,7 @@ function addEmployee() {
       
 }
 
+// adding new role
 function addRole() {
   inquirer
     .prompt([ {
@@ -279,6 +284,38 @@ function addRole() {
       });
 }
 
+// function to update employee role fom database
+function updateEmployeeRole() {
+
+  connection.query("SELECT employee_firstName FROM employee", function (err, res) {
+    if (err) throw err;
+
+    inquirer
+    .prompt([
+      {
+        type: "list",
+        name:"employee",
+        message: "Please select employee to update",
+        choices: res.map(employee => employee.employee_firstName)
+      }
+    ])
+    .then(answers => {
+      findRole(answers.employee.employee_firstName);
+      start();
+  
+    })
+    .catch(error => {
+      if(error.isTtyError) {
+        
+      } else {
+        
+      }
+    });
+    
+  });
+
+} 
+  
 // function to remove role from database
 function removeRole(oldRole) {
   
@@ -324,27 +361,33 @@ function deleteRole() {
         
       }
     });
-  });
-}
+    
+  // removes employee
 
-function removeEmployee(exEmployee) {
+
+  removeEmployee('Winston');
+
+  function removeEmployee(exEmployee) {
   
-  console.log("Removing employee!\n");
+  console.log("Removing exemployee!\n");
   // query to delete
   connection.query(
-    "DELETE FROM employee WHERE ?",
+    "DELETE FROM employee WHERE title = exEmployee",
     {
-      employee_firstName: exEmployee
+      title: exEmployee
     },
     function(err, res) {
       if (err) throw err;
       console.log("Employee removed!\n");
-      start();
-     
+      start();    
     }
   );
+
+}
+  });
 }
 
+// takes employee out of the database
 function deleteEmployee() {
   connection.query(
     "SELECT employee_firstName FROM employee", function (err, res) {
@@ -354,8 +397,8 @@ function deleteEmployee() {
     .prompt([
       {
         type: "list",
-        name:"exEmployee",
-        message: "Please select employee to remove",
+        name:"deleteEmployee",
+        message: "Enter name of employee to remove",
         choices: res.map(employee => employee.employee_firstName)
       }
     ])
@@ -369,9 +412,11 @@ function deleteEmployee() {
       } else {
         
       }
-     
+
     });
   });
+
 }
 
+  
 
