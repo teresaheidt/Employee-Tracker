@@ -36,7 +36,7 @@ function start() {
         "View all departments",
         "Add department",
         "Add employee",
-        "Add roles",
+        "Add role",
         "Update employee role",
         "View all employees by manager",
         "Update employee manager",
@@ -66,7 +66,7 @@ function start() {
           addDepartment();
           break;
 
-        case "Add roles":
+        case "Add role":
           addRole();
         break;
 
@@ -111,12 +111,14 @@ function start() {
 function findAllDepartments() {
   DB.findAllDepartments().then(function (res) {
     printTable(res)
+    start();
   })
 }
 
 function findAllEmployees() {
   DB.findAllEmployees().then(function(res) {
     printTable(res)
+    start();
   })
 }
 
@@ -132,8 +134,9 @@ function employeeSearch() {
       connection.query(query, { employee: answer.employee }, function (err, res) {
         for (var i = 0; i < res.length; i++) {
           console.log("employee: " + res[i].department + " || salary " + res[i].role + " || manager " + res[i].manager);
-
+          start();
         }
+    
         runSearch();
       
       });
@@ -232,40 +235,143 @@ function addEmployee() {
       })
     })
 
-    function addRole() {
-      inquirer
-        .prompt([
-          {
-            name: "roleList",
-            type: "input",
-            message: "What role do you want to add?",
-          }
-        ])
-        .then(answers => {
-          // create query connection to insert in to table
-          console.log(answers);
-          connection.query(
-            "INSERT INTO role SET ?",
-            {
-       
-                title: answers.title, 
-                salary: answers.salary,
-                department_id: answers.department_id
-
-            },
-            function (err, res) {
-              if (err) throw err;
-              console.log(res.affectedRows + " New role inserted!\n");
-              start();
-            }
-          );
-          
-            runSearch();
-          });
-    }
-
+      
 }
 
+function addRole() {
+  inquirer
+    .prompt([ {
+        type: "input",
+        name: "title",
+        message: "What title do you want to add?",
+      },
+      { 
+        type: "input", 
+        name: "salary",
+        message: "What salary do you want to add?"
+     },
+     {
+        type: 'input', 
+        name: "department_id",
+        message: "What the department id?"
+   }
+    ])
+    .then(answers => {
+      // create query connection to insert in to table
+      console.log(answers);
+      connection.query(
+        "INSERT INTO role SET ?",
+        {
+   
+            title: answers.title, 
+            salary: answers.salary,
+            department_id: answers.department_id
 
+        },
+        function (err, res) {
+          if (err) throw err;
+          console.log(res.affectedRows + " New role inserted!\n");
+          start();
+        }
+      );
+      
+        runSearch();
+      });
+}
+
+// function to remove role from database
+function removeRole(oldRole) {
+  
+  console.log("Removing role!\n");
+  // query to delete
+  connection.query(
+    "DELETE FROM role WHERE ?",
+    {
+      title: oldRole
+    },
+    function(err, res) {
+      if (err) throw err;
+      console.log("Role removed!\n");
+      start();
+     
+    }
+  );
+}
+
+function deleteRole() {
+
+  connection.query(
+    "SELECT title FROM role", function (err, res) {
+    if (err) throw err;
+
+    inquirer
+    .prompt([
+      {
+        type: "list",
+        name:"oldrole",
+        message: "Please select role to remove",
+        choices: res.map(role => role.title)
+      }
+    ])
+    .then(answers => {
+      removeRole(answers.oldRole)
+    
+    })
+    .catch(error => {
+      if(error.isTtyError) {
+        
+      } else {
+        
+      }
+    });
+  });
+}
+
+function removeEmployee(exEmployee) {
+  
+  console.log("Removing employee!\n");
+  // query to delete
+  connection.query(
+    "DELETE FROM employee WHERE ?",
+    {
+      employee_firstName: exEmployee
+    },
+    function(err, res) {
+      if (err) throw err;
+      console.log("Employee removed!\n");
+      start();
+     
+    }
+  );
+}
+
+function deleteEmployee() {
+  connection.query(
+    "SELECT employee_firstName FROM employee", function (err, res) {
+    if (err) throw err;
+
+    inquirer
+    .prompt([
+      {
+        type: "list",
+        name:"exEmployee",
+        message: "Please select employee to remove",
+        choices: res.map(employee => employee.employee_firstName)
+      }
+    ])
+    .then(answers => {
+      deleteEmployee(answers.deleteEmployee)
+    
+    })
+    .catch(error => {
+      if(error.isTtyError) {
+        
+      } else {
+        
+      }
+     
+    });
+  });
+}
 
 
