@@ -36,7 +36,7 @@ function start() {
         "Add department",
         "Add employee",
         "Add role",
-        "Update employee role",
+        // "Update employee role",
         // "View all employees by manager",
         // "Update employee manager",
         "Delete employee",
@@ -73,9 +73,9 @@ function start() {
           addEmployee();
         break;
 
-        case "Update employee role":
-          updateEmployeeRole();
-          break;
+        // case "Update employee role":
+        //   updateEmployeeRole();
+        //   break;
 
        
 
@@ -156,6 +156,48 @@ function viewRoles() {
 
 }
 
+// update the employee role
+function updateRoles() {
+  connection.query("SELECT * FROM role", function (err, res) {
+    //if (err) throw err;
+
+    console.table(res);
+    start()
+
+  });
+
+}
+
+// add new role
+function changeRole() {
+  inquirer
+    .prompt([
+      {
+        name: "roleList",
+        type: "input",
+        message: "What role do you want to add?",
+      }
+    ])
+    .then(answers => {
+      // create query connection to insert in to table
+      connection.query(
+        "INSERT INTO department SET ?",
+        {
+          department_Name: answers.departmentList
+        },
+        function (err, res) {
+          if (err) throw err;
+          console.log(res.affectedRows + " New role inserted!\n");
+          
+          start();
+        }
+      );
+      
+        runSearch();
+
+      });
+}
+
 function managerSearch() {
   var query = "SELECT manager FROM employeeTracker_DB GROUP BY manager HAVING count(*) > 1";
   connection.query(query, function (err, res) {
@@ -233,18 +275,14 @@ function addEmployee() {
          
         }, 
         function (err, res) {
-          if (err) {
-            console.error("Very sorry, please try again");
-            addEmployee();
-          } else {
+          if (err) throw err;
+            console.error(res.affectedRows + " New employee inserted!\n");
             start();
           }
-        
-      })
-      
-    })
+        );
+         
+    });
 
-      
 }
 
 // adding new role
