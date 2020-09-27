@@ -30,6 +30,10 @@ This is how the user will view the employees. With keyboard arrows when the user
 
 ![screenshot](imgs/employeeView.png)
 
+The schema diagram and the chain of command.
+
+![screenshot](imgs/diagram.png)
+
 ## Issues:
 There were some bugs in the code. Commented out in the server.js file are the code snippets that did not run. For FUTURE to be solved!
 1. View budget
@@ -40,5 +44,5 @@ There were some bugs in the code. Commented out in the server.js file are the co
 ## Links:
 [Link to Github](https://teresaheidt.github.io/Employee-Tracker/)
 
-[Link to video]( )
+[Link to video](https://drive.google.com/file/d/14yv2fnZ7HpGt3oOysSD9BTlKcvKMBErH/view?usp=sharing)
 
