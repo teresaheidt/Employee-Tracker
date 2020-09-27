@@ -313,7 +313,7 @@ function updateEmployeeRole() {
   });
   // start();
 
-} 
+}
 
 function findRole(name) {
   connection.query('SELECT department_id FROM role', function (err, res) {
@@ -339,6 +339,54 @@ function findRole(name) {
     }
   });
 })
+}
+
+// takes employee out of the database
+function deleteEmployee() {
+  connection.query(
+    "SELECT employee_firstName FROM employee", function (err, res) {
+    if (err) throw err;
+
+    inquirer
+    .prompt([
+      {
+        type: "list",
+        name:"deleteEmployee",
+        message: "Enter name of employee to remove",
+        choices: res.map(employee => employee.employee_firstName)
+      }
+    ])
+    .then(answers => {
+      removeEmployee(answers.deleteEmployee)
+    
+    })
+    .catch(error => {
+      if(error.isTtyError) {
+        
+      } else {
+        
+      }
+
+    });
+  });
+
+}
+
+// removes employee
+function removeEmployee(exEmployee) {
+
+  // query to delete
+  connection.query(
+    "REMOVE FROM employee WHERE employee_firstName = ?",
+    exEmployee, 
+  
+    function(err, res) {
+      if (err) throw err;
+      console.log("Employee removed!\n");
+       
+    }
+  );
+  start();  
 }
   
 // function to remove role from database
@@ -386,57 +434,3 @@ function deleteRole() {
         
       }
     });
-    
-  // removes employee
-
-  function removeEmployee(exEmployee) {
-
-  // query to delete
-  connection.query(
-    "REMOVE FROM employee WHERE employee_firstName = ?",
-    exEmployee 
-  
-    function(err, res) {
-      if (err) throw err;
-      console.log("Employee removed!\n");
-       
-    }
-  );
-  start();  
-}
-  });
-}
-
-// takes employee out of the database
-function deleteEmployee() {
-  connection.query(
-    "SELECT employee_firstName FROM employee", function (err, res) {
-    if (err) throw err;
-
-    inquirer
-    .prompt([
-      {
-        type: "list",
-        name:"deleteEmployee",
-        message: "Enter name of employee to remove",
-        choices: res.map(employee => employee.employee_firstName)
-      }
-    ])
-    .then(answers => {
-      removeEmployee(answers.deleteEmployee)
-    
-    })
-    .catch(error => {
-      if(error.isTtyError) {
-        
-      } else {
-        
-      }
-
-    });
-  });
-
-}
-
-  
-
