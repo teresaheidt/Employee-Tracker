@@ -233,10 +233,15 @@ function addEmployee() {
          
         }, 
         function (err, res) {
-          if (err)throw err;
-      
-        start();
+          if (err) {
+            console.error("Very sorry, please try again");
+            addEmployee();
+          } else {
+            start();
+          }
+        
       })
+      
     })
 
       

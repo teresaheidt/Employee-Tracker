@@ -19,10 +19,10 @@ Using MySQL for the database, the user can find an employee, department, salary 
 Super effective way to manage emplpoyees, departments and salaries. 
 
 ## Technologies used:
-Node modules, Inquirer packages & MySQL
+Node modules, Inquirer packages, asciimo (for colorful welcome) & MySQL
 
 ## Imgs:
-Welcome to the employee-tracker! This was designed using asciimo.
+Welcome to the employee-tracker! This 'welcome' sign was designed using asciimo.
 
 ![screenshot](imgs/welcome.png)
 
