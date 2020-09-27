@@ -40,7 +40,7 @@ function start() {
         // "View all employees by manager",
         // "Update employee manager",
         "Delete employee",
-        // "Delete department",
+        "Delete department",
         "Delete role",
         // "View bugdget",
         "Exit"
@@ -92,9 +92,9 @@ function start() {
           deleteEmployee();
           break;
 
-        // case "Delete department":
-        //   deleteDepartment();
-        //   break;
+        case "Delete department":
+          deleteDepartment();
+          break;
 
         case "Delete role":
             deleteRole();
@@ -341,12 +341,13 @@ function findRole(name) {
 })
 }
 
-// takes employee out of the database
+// takes employee out of the db
 function deleteEmployee() {
   connection.query(
     "SELECT employee_firstName FROM employee", function (err, res) {
     if (err) throw err;
 
+  // shows the employees to delete
     inquirer
     .prompt([
       {
@@ -372,12 +373,12 @@ function deleteEmployee() {
 
 }
 
-// removes employee
+// deletes employee from database
 function removeEmployee(exEmployee) {
 
   // query to delete
   connection.query(
-    "REMOVE FROM employee WHERE employee_firstName = ?",
+    "DELETE FROM employee WHERE employee_firstName = ?",
     exEmployee, 
   
     function(err, res) {
@@ -388,28 +389,9 @@ function removeEmployee(exEmployee) {
   );
   start();  
 }
-  
-// function to remove role from database
-function removeRole(oldRole) {
-  
-  console.log("Removing role!\n");
-  // query to delete
-  connection.query(
-    "DELETE FROM role WHERE ?",
-    {
-      title: oldRole
-    },
-    function(err, res) {
-      if (err) throw err;
-      console.log("Role removed!\n");
-      start();
-     
-    }
-  );
-}
 
+// takes role out of db
 function deleteRole() {
-
   connection.query(
     "SELECT title FROM role", function (err, res) {
     if (err) throw err;
@@ -418,13 +400,13 @@ function deleteRole() {
     .prompt([
       {
         type: "list",
-        name:"oldRole",
+        name:"deleteRole",
         message: "Please select role to remove",
         choices: res.map(role => role.title)
       }
     ])
     .then(answers => {
-      removeRole(answers.role)
+      removeRole(answers.deleteRole)
     
     })
     .catch(error => {
@@ -433,4 +415,85 @@ function deleteRole() {
       } else {
         
       }
+
     });
+  });
+  
+}
+
+// deletes role from database
+function removeRole(oldRole) {
+
+  connection.query(
+    "DELETE FROM role WHERE title = ?",
+    oldRole,
+  
+    function(err, res) {
+      if (err) throw err;
+      console.log("Role removed!\n");
+     
+    }
+  );
+  start();
+}
+
+// removes department from db
+function deleteDepartment() {
+  connection.query(
+    "SELECT department_name FROM department", function (err, res) {
+    if (err) throw err;
+
+    inquirer
+    .prompt([
+      {
+        type: "list",
+        name:"deleteDepartment",
+        message: "Please select department to remove",
+        choices: res.map(department => department.department_name)
+      }
+    ])
+    .then(answers => {
+      removeDepartment(answers.deleteDepartment)
+    
+    })
+    .catch(error => {
+      if(error.isTtyError) {
+        
+      } else {
+        
+      }
+
+    });
+  });
+  
+}
+
+// deletes department from database
+function removeDepartment(oldDepartment) {
+
+  // query to delete
+  connection.query(
+    "DELETE FROM department WHERE department_name = ?",
+    oldDepartment,
+  
+    function(err, res) {
+      if (err) throw err;
+      console.log("Department removed!\n");
+      
+    }
+  );
+ start();
+}
+
+
+
+
+  
+
+
+
+
+
+
+
+
