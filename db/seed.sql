@@ -1,3 +1,33 @@
+-- insert department;
+INSERT INTO department (department_name)
+VALUES ("Human Resources");
+
+INSERT INTO department (department_name)
+VALUES ("Executive Office");
+
+INSERT INTO department (department_name)
+VALUES ("Visual");
+
+INSERT INTO department (department_name)
+VALUES ("Public Relations");
+
+INSERT INTO department (department_name)
+VALUES ("Kitchen");
+
+INSERT INTO department (department_name)
+VALUES ("Housekeeping");
+
+INSERT INTO department (department_name)
+VALUES ("Marketing");
+
+INSERT INTO department (department_name)
+VALUES ("Sales Floor");
+
+INSERT INTO department (department_name)
+VALUES ("Engineering");
+
+INSERT INTO department (department_name)
+VALUES ("IT");
 
 -- insert role;
 INSERT INTO role (title, salary, department_id)
@@ -30,36 +60,6 @@ VALUES ("PR manager", 55000, 10);
 INSERT INTO role (title, salary, department_id)
 VALUES ("Coordinator", 45000, 4);
 
--- insert department;
-INSERT INTO department (department_name)
-VALUES ("Human Resources");
-
-INSERT INTO department (department_name)
-VALUES ("Executive Office");
-
-INSERT INTO department (department_name)
-VALUES ("Visual");
-
-INSERT INTO department (department_name)
-VALUES ("Public Relations");
-
-INSERT INTO department (department_name)
-VALUES ("Kitchen");
-
-INSERT INTO department (department_name)
-VALUES ("Housekeeping");
-
-INSERT INTO department (department_name)
-VALUES ("Marketing");
-
-INSERT INTO department (department_name)
-VALUES ("Sales Floor");
-
-INSERT INTO department (department_name)
-VALUES ("Engineering");
-
-INSERT INTO department (department_name)
-VALUES ("IT");
 
 -- insert employee;
 INSERT INTO employee (employee_firstName, employee_lastName, role_id, manager_id)

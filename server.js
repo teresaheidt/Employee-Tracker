@@ -10,11 +10,11 @@ var sys = require('util');
 // create the welcome sign
 art();
 function art() {
-  var font = 'larry3d';
+  var font = 'colossal';
   // set text we are writing to turn into leet ascii art
-  var text = "Welcome";
+  var text = "Welcome!";
   asciimo.write(text, font, function(art){
-    console.log(art.red);
+  console.log(art.magenta);
   });
   start();
 }
@@ -300,9 +300,6 @@ function updateEmployeeRole() {
       }
     ])
     .then(answers => {
-      findRole(
-        answers.employee.employee_firstName);
-      start();
   
     })
     .catch(error => {
@@ -314,7 +311,7 @@ function updateEmployeeRole() {
     });
     
   });
-  start();
+  // start();
 
 } 
 
@@ -373,13 +370,13 @@ function deleteRole() {
     .prompt([
       {
         type: "list",
-        name:"oldrole",
+        name:"oldRole",
         message: "Please select role to remove",
         choices: res.map(role => role.title)
       }
     ])
     .then(answers => {
-      removeRole(answers.oldRole)
+      removeRole(answers.role)
     
     })
     .catch(error => {
@@ -393,22 +390,19 @@ function deleteRole() {
   // removes employee
 
   function removeEmployee(exEmployee) {
-  
-  console.log("Removing exemployee!\n");
 
   // query to delete
   connection.query(
-    "DELETE FROM employee WHERE employee",
-    {
-      title: exEmployee
-    },
+    "REMOVE FROM employee WHERE employee_firstName = ?",
+    exEmployee 
+  
     function(err, res) {
       if (err) throw err;
       console.log("Employee removed!\n");
-      start();    
+       
     }
   );
-
+  start();  
 }
   });
 }
@@ -429,7 +423,7 @@ function deleteEmployee() {
       }
     ])
     .then(answers => {
-      deleteEmployee(answers.deleteEmployee)
+      removeEmployee(answers.deleteEmployee)
     
     })
     .catch(error => {
