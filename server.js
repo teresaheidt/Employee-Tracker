@@ -143,7 +143,7 @@ function employeeSearch() {
       });
     });
 }
- 
+
 // if user wants to view what roles
 function viewRoles() {
   connection.query("SELECT * FROM role", function (err, res) {
@@ -155,38 +155,6 @@ function viewRoles() {
   });
 
 }
-
-// // update the employee role
-// function updateRole() {
-//   // run this and grabs employees
-// DB.findAllEmployees()
-// .then(([employee_firstName, employee_lastName]) => {
-//   let employees = rows;
-//   const employeeChoices = employees.map
-//   (({id, employee_firstName, employee_lastName}) => ({
-//     name: ${employee_firstName} ${employee_lastName} ``,
-//     value: id
-//   }))
-// // prompt 
-// inquirer
-// .prompt([
-//   {
-//     type: "list",
-//     name: "employee",
-//     message: "Please select employee to update",
-//     choices: employeeChoices
-//   }
-// ])
-// .then(answers => {
-//   changeRole(answers.employee_firstName);
-// })
-// .catch(error => {
-//   if(error.isTtyError) {
-//   } else {
-
-//   }
-// });
-
 
 function managerSearch() {
   var query = "SELECT manager FROM employeeTracker_DB GROUP BY manager HAVING count(*) > 1";
@@ -316,6 +284,38 @@ function addRole() {
         runSearch();
       });
 }
+
+// update the employee role
+function updateRole() {
+  // run this and grabs employees
+DB.findAllEmployees()
+.then(([employee_firstName, employee_lastName]) => {
+  let employees = rows;
+  const employeeChoices = employees.map
+  (({id, employee_firstName, employee_lastName}) => ({
+    name: `${employee_firstName} ${employee_lastName}`,
+    value: id
+  }))
+// prompt 
+inquirer
+.prompt([
+  {
+    type: "list",
+    name: "employee_firstName",
+    message: "Please select employee to update",
+    choices: employeeChoices
+  }
+])
+.then(answers => {
+  changeRole(answers.employee_firstName);
+})
+.catch(error => {
+  if(error.isTtyError) {
+  } else {
+
+  }
+});
+
 
 // function to update employee role in database
 function updateEmployeeRole() {
@@ -491,16 +491,3 @@ function removeDepartment(oldDepartment) {
   );
  start();
 }
-
-
-
-
-  
-
-
-
-
-
-
-
-
