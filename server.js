@@ -287,15 +287,16 @@ function addRole() {
 
 // update the employee role
 function updateRole() {
-  // run this and grabs employees
 DB.findAllEmployees()
-.then(([employee_firstName, employee_lastName]) => {
+.then(([_rows_]) => {
   let employees = rows;
   const employeeChoices = employees.map
-  (({id, employee_firstName, employee_lastName}) => ({
+  (({id, employee_firstName, employee_lastName}) => 
+  console.log("EMp data: "+id +" "+employee_firstName+" "+employee_lastName));
+  /*({
     name: `${employee_firstName} ${employee_lastName}`,
     value: id
-  }))
+  }))*/
 // prompt 
 inquirer
 .prompt([
@@ -307,6 +308,7 @@ inquirer
   }
 ])
 .then(answers => {
+  console.log("Employee info: "+answers.employee_firstName)
   changeRole(answers.employee_firstName);
 })
 .catch(error => {
@@ -315,25 +317,34 @@ inquirer
 
   }
 });
+})
+}
 
 
 // function to update employee role in database
 function updateEmployeeRole() {
-
-  connection.query("SELECT employee_firstName FROM employee", function (err, res) {
+var temp = [];
+  connection.query("SELECT id,employee_firstName,employee_lastName FROM employee", function (err, res) {
     if (err) throw err;
-
+    res.map(employee => temp.push(employee.id +" "+employee.employee_firstName+" "+employee.employee_lastName));
     inquirer
     .prompt([
       {
         type: "list",
         name: "employee",
         message: "Please select employee to update",
-        choices: res.map(employee => employee.employee_firstName)
+        /*choices: res.map(employee => employee.employee_firstName)*/
+        choices: temp
       }
     ])
     .then(answers => {
-  
+      var id = answers.split(" ")[0];
+      connection.query("UPDATE employee SET role_id=? WHERE employee_firstName, employee_lastName=?", 
+      [answers.updateRole, answers.updateEmployeeRole],function(err, res) {
+        if(err) throw err;
+        console.log(res);
+        // start();
+      })
     })
     .catch(error => {
       if(error.isTtyError) {
