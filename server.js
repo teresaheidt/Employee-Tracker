@@ -156,93 +156,37 @@ function viewRoles() {
 
 }
 
-// update the employee role
-function updateRole() {
-  connection.query("SELECT employee_firstName FROM employee", function (err, res) {
-    //if (err) throw err;
+// // update the employee role
+// function updateRole() {
+//   // run this and grabs employees
+// DB.findAllEmployees()
+// .then(([employee_firstName, employee_lastName]) => {
+//   let employees = rows;
+//   const employeeChoices = employees.map
+//   (({id, employee_firstName, employee_lastName}) => ({
+//     name: ${employee_firstName} ${employee_lastName} ``,
+//     value: id
+//   }))
+// // prompt 
+// inquirer
+// .prompt([
+//   {
+//     type: "list",
+//     name: "employee",
+//     message: "Please select employee to update",
+//     choices: employeeChoices
+//   }
+// ])
+// .then(answers => {
+//   changeRole(answers.employee_firstName);
+// })
+// .catch(error => {
+//   if(error.isTtyError) {
+//   } else {
 
-    if (err) throw err;
-    inquirer
-    .prompt([
-      {
-        type: "list",
-        name:"employee",
-        message: "Please select employee to update",
-        choices: res.map(emp => emp.employee_firstName)
-      }
-    ])
-    .then(answers => {
-      changeRole(answers.employee_firstName);
-    })
-    .catch(error => {
-      if(error.isTtyError) {
-      } else {
-      }
-    });
-  });
-} 
+//   }
+// });
 
-function changeRole(name) {
-  connection.query("SELECT department_id  FROM role", function (err, res) {
-    if (err) throw err;
-    console.log(res);
-    inquirer
-    .prompt([
-      {
-        type: "list",
-        name:"role",
-        message: "Please select desired role to update",
-        choices: res.map(role => role.department_id)
-      }
-    ])
-    .then(answers => {let sql = "UPDATE employee SET role_id = ? WHERE employee_firstName = ?";
-    let role = parseInt(answers.role);
-    let data = [role, name];
-// execute the UPDATE statement
-connection.query(sql, data, (error, results, fields) => {
-if (error){
-return console.error(error.message);
-}
-});
-    })
-    .catch(error => {
-      if(error.isTtyError) {
-      } else {
-      }
-    });
-  });
-  start()
-}   
-
-// add new role
-function changeRole() {
-  inquirer
-    .prompt([
-      {
-        name: "roleList",
-        type: "input",
-        message: "What role do you want to add?",
-      }
-    ])
-    .then(answers => {
-      // create query connection to insert in to table
-      connection.query(
-        "INSERT INTO department SET ?",
-        {
-          department_Name: answers.departmentList
-        },
-        function (err, res) {
-          if (err) throw err;
-          console.log(res.affectedRows + " New role inserted!\n");
-          
-          start();
-        }
-      );
-      
-        runSearch();
-
-      });
-}
 
 function managerSearch() {
   var query = "SELECT manager FROM employeeTracker_DB GROUP BY manager HAVING count(*) > 1";
@@ -402,32 +346,6 @@ function updateEmployeeRole() {
   });
   // start();
 
-}
-
-function findRole(name) {
-  connection.query('SELECT department_id FROM role', function (err, res) {
-    if (err) throw err;
-
-    inquirer
-    .prompt([
-      {
-      type: "list",
-      name: "role",
-      message: "Select department to update",
-      choices: res.map(role => role.department)
-      }
-    ])
-  })
-  .then(answer => {let sql = "UPDATE employee SET role_id = WHERE employee_firstName = ?"; 
-  let role = parseInt(answer.role);
-  let data = [role, name];
-
-  connection.query(sql, data, (error, results, fields) => {
-    if (error) {
-      return console.error(error.message);
-    }
-  });
-})
 }
 
 // takes employee out of the db
